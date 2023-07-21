@@ -31,7 +31,7 @@ const App = () => {
     return country.name.common.toLowerCase().includes(name.toLowerCase())
       || country.name.official.toLowerCase().includes(name.toLowerCase())
   })
-  
+
   return (<div>
             <form>
               find countries <input value={name} onChange={handleNameChange} />

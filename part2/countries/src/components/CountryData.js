@@ -1,5 +1,30 @@
 import { useState, useEffect } from 'react'
 import countryService from '../services/countries'
+import weatherService from '../services/weather'
+
+const Weather = ({ lat, lon }) => {
+  const [weather, setWeather] = useState(null)
+  
+  useEffect(() => {
+    weatherService.getWeather(lat, lon).then(
+      data => {
+        setWeather(data)
+      }
+    )
+  }, [])
+
+  if(!weather) {
+    return null
+  }
+
+  return (
+    <div>
+      temperature {weather.main.temp - 273.15} Celsius<br />
+      <img src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`} /><br />
+      wind {weather.wind.speed} m/s<br />
+    </div>
+  )
+}
 
 const CountryData = ({ country, selected, clearSelected }) => {
   const [countryData, setCountryData] = useState(null)
@@ -35,6 +60,8 @@ const CountryData = ({ country, selected, clearSelected }) => {
 
       <h1 className="flag">{countryData.flag}</h1>
 
+      <Weather lat={countryData.latlng[0]} lon={countryData.latlng[1]} />
+      
       {selected
        && <div>
             <button onClick={clearSelected}>Go back</button>
