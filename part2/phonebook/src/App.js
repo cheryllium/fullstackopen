@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react'
 
-import axios from 'axios'
-
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
@@ -47,6 +45,7 @@ const App = () => {
   }
 
   const setErrorMessage = (message) => {
+    console.log('set error', message)
     setMessage(message)
     setStatus('error')
     setTimeout(
@@ -98,6 +97,9 @@ const App = () => {
           setSuccessMessage(`${createdPerson.name} added to phonebook`)
         }
       )
+      .catch(error => {
+        setErrorMessage(error.response.data.error)
+      })
   }
 
   const handleDeletePerson = (id) => {
